@@ -6,6 +6,8 @@ const routes = require('./routes/index')
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
+// Mongoose
+require('./config/mongoose')
 
 const app = express()
 const port = process.env.PORT
