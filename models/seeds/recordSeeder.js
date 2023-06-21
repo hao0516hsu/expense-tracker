@@ -12,23 +12,29 @@ const SEED_USER = {
 
 const SEED_RECORD = [
   {
-    name: "早餐",
+    name: "的形我版你知道在沒日本",
     date: "2023/1/1",
     amount: "100",
     category_name: "餐飲食品"
   },
   {
-    name: "看棒球",
+    name: "風自己的是想才知道，家了也不",
     date: "2023/1/1",
     amount: "450",
     category_name: "休閒娛樂"
   },
   {
-    name: "捷運",
+    name: "生活，共的事物偷偷，太的天",
     date: "2023/1/1",
     amount: "80",
     category_name: "交通出行",
   },
+  {
+    name: "我有海正面不了遇到一。到他",
+    date: "2023/1/1",
+    amount: "99999",
+    category_name: "其他",
+  }
 ]
 
 db.once('open', () => {

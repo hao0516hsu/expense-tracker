@@ -1,63 +1,68 @@
-{{!-- <div class="container col-md-6 " id="container"> --}}
-  <div class="row mt-2">
-    <div class="col-md-6 m-auto">
-      <div class="card card-body border-0">
-        <div class="row text-center">
-          <div class="col-9 my-3">
-            <select class="form-select" aria-label="Default select example">
-              <option selected>類別</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+<div class="row mt-2">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body border-0">
+      <div class="row text-center">
+        <div class="col-9 my-3">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>類別</option>
+            {{#each categories}}
+            <option value="{{this.index}}">{{this.name}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+
+      <ul class="list-group">
+        {{!-- 總金額 --}}
+        <div class="row">
+          <div class="col-9">
+            <li class="list-group-item py-0 border-0">
+              <div class="d-flex flex-row justify-content-between ">
+                <p class="">總金額：</p>
+                <h1 id="totalAmount" class="text-warning">{{totalAmount}}</h1>
+              </div>
+            </li>
           </div>
         </div>
-
-        <ul class="list-group">
-          {{!-- 總金額 --}}
-          <div class="row">
-            <div class="col-9">
-              <li class="list-group-item py-0 border-0">
-                <div class="d-flex flex-row justify-content-between ">
-                  <p class="">總金額：</p>
-                  <h1 id="totalAmount" class="text-warning">9999999</h1>
-                </div>
-              </li>
-            </div>
-          </div>
-          {{!-- 細項 --}}
-          {{!-- {{{#each}}} --}}
-          <div class="row">
-            <div class="col-9">
-              <li class="list-group-item list-group-item-dark">
-                <div class="d-flex flex-row align-items-center justify-content-between">
-                  <div class="d-flex flex-row align-items-center">
-                    <i class="fa-solid fa-utensils fa-2xl" style="color: #2977ff;"></i>
-                    <div class="d-flex flex-column align-items-center px-3">
-                      <span id="itemName" class="fs-5">午餐</span>
-                      <span id="itemDate" class="fs-6">2019/04/23</span>
-                    </div>
-                  </div>
-                  <div class="col-1">
-                    <span id="itemPrice" class="fs-5">60</span>
+        {{!-- 細項 --}}
+        {{#each records}}
+        <div class="row">
+          <div class="col-9">
+            {{#if this.isEven}}
+            <li class="list-group-item list-group-item-dark">
+              {{else}}
+            <li class="list-group-item list-group-item">
+              {{/if}}
+              {{!--
+            <li class="list-group-item list-group-item-dark"> --}}
+              <div class="d-flex flex-row align-items-center justify-content-between">
+                <div class="d-flex flex-row align-items-center">
+                  <i class="{{this.categoryId.icon}}" style="color: #2977ff;"></i>
+                  <div class="d-flex flex-column px-3 my-1">
+                    <span id="itemName" class="h6 my-0">{{this.name}}</span>
+                    <span id="itemDate" class="h6 my-0">{{this.date}}</span>
                   </div>
                 </div>
-              </li>
-            </div>
-            <div class="col-auto mt-3">
-              <form action="/expenses/delete" method="POST">
-                <a href="/expenses/edit" class="btn btn-outline-success btn-sm">修改</a>
-                <button type="button" class="btn btn-outline-danger btn-sm"> 刪除</button>
-              </form>
-            </div>
+                <div class="d-flex justify-content-end col-auto">
+                  <span id="itemPrice" class="fs-5">{{this.amount}}</span>
+                </div>
+              </div>
+            </li>
           </div>
 
-        </ul>
-
-        <div class="col-9 text-center my-4">
-          <a href="/expenses/new" class="btn btn-outline-primary">新增支出</a>
+          <div class="col-auto d-flex flex-row align-items-center">
+            <form action="/expenses/delete" method="POST">
+              <a href="/expenses/edit" class="btn btn-outline-success btn-sm">修改</a>
+              <button type="button" class="btn btn-outline-danger btn-sm"> 刪除</button>
+            </form>
+          </div>
         </div>
+        {{/each}}
+      </ul>
 
+      <div class="col-9 text-center my-4">
+        <a href="/expenses/new" class="btn btn-outline-primary">新增支出</a>
       </div>
     </div>
   </div>
+</div>
