@@ -6,7 +6,7 @@
           <select class="form-select" aria-label="Default select example">
             <option selected>類別</option>
             {{#each categories}}
-            <option value="{{this.index}}">{{this.name}}</option>
+            <option value="{{this.name}}">{{this.name}}</option>
             {{/each}}
           </select>
         </div>
@@ -52,7 +52,7 @@
 
           <div class="col-auto d-flex flex-row align-items-center">
             <form action="/expenses/delete" method="POST">
-              <a href="/expenses/edit" class="btn btn-outline-success btn-sm">修改</a>
+              <a href="/expenses/{{this._id}}" class="btn btn-outline-success btn-sm">修改</a>
               <button type="button" class="btn btn-outline-danger btn-sm"> 刪除</button>
             </form>
           </div>

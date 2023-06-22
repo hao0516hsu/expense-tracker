@@ -1,7 +1,7 @@
 <div class="row mt-5">
   <div class="col-md-6 m-auto">
     <div class="card card-body">
-      <form action="/expenses" method="post">
+      <form action="/expenses/{{record._id}}" method="post">
         <div class="mb-3 d-flex flex-row align-items-center">
 
           <h6>*必填欄位</h6>
@@ -9,28 +9,33 @@
         </div>
 
         <div class="mb-3 input-group">
-          <label for="itemName" class="form-label">名稱*：</label>
-          <input type="text" class="form-control mx-3" id="itemName" name="itemName" required>
+          <label for="name" class="form-label">名稱*：</label>
+          <input type="text" class="form-control mx-3" id="name" name="name" value="{{record.name}}" required>
         </div>
 
         <div class="mb-3 input-group">
-          <label for="itemDate" class="form-label">日期*：</label>
-          <input type="date" class="form-control mx-3" id="itemDate" name="itemDate" required>
+          <label for="date" class="form-label">日期*：</label>
+          <input type="date" class="form-control mx-3" id="date" name="date" value="{{dateForHb}}" required>
+          {{!-- value="2023-06-22" --}}
         </div>
 
         <div class="mb-3 input-group">
           <p>類別*：</p>
-          <select class="form-select mx-3" aria-label="Default select example">
-            <option selected>類別</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+          <select class="form-select mx-3" aria-label="Default select example" id="categoryName" name="categoryName" required>
+            <option value="">類別</option>
+            {{#each categories}}
+              {{#if this.isChoosed}}
+                <option selected value="{{this.name}}">{{this.name}}</option>
+              {{else}}
+                <option value="{{this.name}}">{{this.name}}</option>
+              {{/if}}
+            {{/each}}
           </select>
         </div>
 
         <div class="mb-4 input-group">
-          <label for="itemPrice" class="form-label">金額*：</label>
-          <input type="number" class="form-control mx-3" id="itemPrice" name="itemPrice" required>
+          <label for="amount" class="form-label">金額*：</label>
+          <input type="number" class="form-control mx-3" id="amount" name="amount" value="{{record.amount}}" required>
         </div>
 
         <div class="d-flex flex-row justify-content-center">

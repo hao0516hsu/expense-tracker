@@ -20,8 +20,8 @@
 
         <div class="mb-3 input-group">
           <p>類別*：</p>
-          <select class="form-select mx-3" aria-label="Default select example" id="categoryName" name="categoryName">
-            <option selected>類別</option>
+          <select class="form-select mx-3" aria-label="Default select example" id="categoryName" name="categoryName" required>
+            <option value="" selected>類別</option>
             {{#each categories}}
             <option value="{{this.name}}">{{this.name}}</option>
             {{/each}}            
