@@ -1,5 +1,6 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
+const bodyParser = require('body-parser')
 
 const routes = require('./routes/index')
 
@@ -14,6 +15,8 @@ const port = process.env.PORT
 // Handlebars設定
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
+// Body-parser
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(routes)
 
