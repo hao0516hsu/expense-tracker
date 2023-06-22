@@ -4,7 +4,7 @@
       <div class="row text-center">
         <div class="col-9 my-3">
           <select class="form-select" aria-label="Default select example">
-            <option selected>類別</option>
+            <option value="" selected>類別</option>
             {{#each categories}}
             <option value="{{this.name}}">{{this.name}}</option>
             {{/each}}
@@ -49,17 +49,17 @@
               </div>
             </li>
           </div>
-
+          {{!-- 按鈕(EDIT + DELETE) --}}
           <div class="col-auto d-flex flex-row align-items-center">
-            <form action="/expenses/delete" method="POST">
+            <form action="/expenses/{{this._id}}/delete" method="POST">
               <a href="/expenses/{{this._id}}" class="btn btn-outline-success btn-sm">修改</a>
-              <button type="button" class="btn btn-outline-danger btn-sm"> 刪除</button>
+              <button type="submit" class="btn btn-outline-danger btn-sm"> 刪除</button>
             </form>
           </div>
         </div>
         {{/each}}
       </ul>
-
+      {{!-- 按鈕(CREATE) --}}
       <div class="col-9 text-center my-4">
         <a href="/expenses/new" class="btn btn-outline-primary">新增支出</a>
       </div>

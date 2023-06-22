@@ -98,4 +98,15 @@ router.post('/:id', (req, res) => {
     .catch(err => console.log(err))
 })
 
+// Post路由：刪除頁(delete)
+router.post('/:id/delete',(req,res)=>{
+  const id = req.params.id
+
+  Record.findById(id)
+    .then(record=> record.remove())
+    .then(() => res.redirect('/'))
+    .catch(err => console.log(err))
+})
+
+
 module.exports = router
