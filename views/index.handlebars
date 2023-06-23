@@ -3,12 +3,18 @@
     <div class="card card-body border-0">
       <div class="row text-center">
         <div class="col-9 my-3">
-          <select class="form-select" aria-label="Default select example">
-            <option value="" selected>類別</option>
-            {{#each categories}}
-            <option value="{{this.name}}">{{this.name}}</option>
-            {{/each}}
-          </select>
+          <form action="/" method="POST">
+            <select class="form-select" aria-label="Default select example" id="categoryName" name="categoryName" onchange="this.form.submit()">
+              <option value="">類別</option>
+              {{#each categories}}
+                {{#if this.isChoosed}}
+                  <option selected value="{{this.name}}">{{this.name}}</option>
+                {{else}}
+                  <option value="{{this.name}}">{{this.name}}</option>
+                {{/if}}              
+              {{/each}}
+            </select>
+          </form>
         </div>
       </div>
 
@@ -18,7 +24,7 @@
           <div class="col-9">
             <li class="list-group-item py-0 border-0">
               <div class="d-flex flex-row justify-content-between ">
-                <p class="">總金額：</p>
+                <p>總金額：</p>
                 <h1 id="totalAmount" class="text-warning">{{totalAmount}}</h1>
               </div>
             </li>
