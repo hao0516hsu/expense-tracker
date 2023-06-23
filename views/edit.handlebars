@@ -1,7 +1,7 @@
 <div class="row mt-5">
   <div class="col-md-6 m-auto">
     <div class="card card-body">
-      <form action="/expenses/{{record._id}}" method="post">
+      <form action="/expenses/{{record._id}}?_method=PUT" method="post">
         <div class="mb-3 d-flex flex-row align-items-center">
 
           <h6>*必填欄位</h6>
@@ -15,7 +15,7 @@
 
         <div class="mb-3 input-group">
           <label for="date" class="form-label">日期*：</label>
-          <input type="date" class="form-control mx-3" id="date" name="date" value="{{dateForHb}}" required>
+          <input type="date" class="form-control mx-3" id="date" name="date" value="{{dashDate}}" required>
           {{!-- value="2023-06-22" --}}
         </div>
 
