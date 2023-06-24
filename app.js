@@ -4,13 +4,16 @@ const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 // Method-Override: RESTful API相關
 const methodOverride = require('method-override')
+// Express-Session: 產生Session
+const session = require('express-session')
 
-// 引用路由
-const routes = require('./routes/index')
 // DOTENV設定
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
+
+// 引用路由
+const routes = require('./routes')
 // 引用Mongoose
 require('./config/mongoose')
 
@@ -24,6 +27,13 @@ app.set('view engine', 'handlebars')
 app.use(bodyParser.urlencoded({ extended: true }))
 // Method-override設定
 app.use(methodOverride('_method'))
+// Express-session設定
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true
+}))
+
 // 使用routes
 app.use(routes)
 
