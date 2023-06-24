@@ -5,16 +5,17 @@ const Category = require('../../models/category')
 
 // GET路由: 首頁
 router.get('/', (req, res) => {
+  const userId = req.user._id
   // 先找出Category的資料，結果存到categories
   Category.find()
     .lean()
     .then(categories => {
       // 找出Record的資料，結果存到records
-      Record.find()
+      Record.find({ userId })
         // populate要以'使用Schema.Types.ObjectId'的欄位名稱
         .populate('categoryId')
         .lean()
-        .sort({ date: 'desc' })
+        .sort({ _id: 'desc' })
         .then(records => {
           let totalAmount = 0
 
@@ -38,6 +39,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   // 取出Select Menu的值
   const { categoryName } = req.body
+  const userId = req.user._id
 
   // 1-a. 若沒有選取，跳轉回首頁
   if (!categoryName) {
@@ -59,11 +61,11 @@ router.post('/', (req, res) => {
         })
 
         // 找出Record的資料，結果存到records
-        Record.find({ categoryId })
+        Record.find({ categoryId, userId })
           // populate要以'使用Schema.Types.ObjectId'的欄位名稱
           .populate('categoryId')
           .lean()
-          .sort({ date: 'desc' })
+          .sort({ _id: 'desc' })
           .then(records => {
             let totalAmount = 0
             // 判斷該項為奇偶數, 並新增屬性到records

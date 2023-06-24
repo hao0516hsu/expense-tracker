@@ -5,10 +5,10 @@ const Category = require('../../models/category')
 
 // 函式庫
 const utilities = {
-  ConvertToSlashDate(dashDate){
+  ConvertToSlashDate(dashDate) {
     return new Date(dashDate).toLocaleDateString('zh-TW')
   },
-  ConvertToDashDate(slashDate){
+  ConvertToDashDate(slashDate) {
     // 1. 取出日期，並將年月日分開存入陣列
     const date = new Date(slashDate)
     const dateArray = [date.getFullYear(), date.getMonth() + 1, date.getDate()]
@@ -37,7 +37,7 @@ router.get('/new', (req, res) => {
 // Post路由：新增頁(new)
 router.post('/', (req, res) => {
   const { name, date, categoryName, amount } = req.body
-  const userId = "6492b4eb257d00d8a027bd08" //測試資料，等登入功能完成後修改
+  const userId = req.user._id
   // 將日期從YYYY-MM-DD轉成YYYY/MM/DD
   let slashDate = utilities.ConvertToSlashDate(date)
 
@@ -61,17 +61,18 @@ router.post('/', (req, res) => {
 
 // Get路由：編輯頁(edit)
 router.get('/:id', (req, res) => {
-  const id = req.params.id
+  const _id = req.params.id
+  const userId = req.user._id
 
   Category.find()
     .lean()
     .then(categories => {
-      Record.findById(id)
+      Record.findOne({ _id, userId })
         .populate('categoryId')
         .lean()
         .then(record => {
           // 將日期從YYYY/MM/DD轉成YYYY-MM-DD 給HTML的value
-          dashDate = utilities.ConvertToDashDate(record.date)      
+          dashDate = utilities.ConvertToDashDate(record.date)
 
           categories.map((category, index) => {
             if (category.name === record.categoryId.name) {
@@ -87,34 +88,36 @@ router.get('/:id', (req, res) => {
 
 // Put路由：編輯頁(edit)
 router.put('/:id', (req, res) => {
-  const id = req.params.id
+  const _id = req.params.id
+  const userId = req.user._id
   const { name, date, categoryName, amount } = req.body
   let slashDate = utilities.ConvertToSlashDate(date)
 
   Category.findOne({ name: categoryName })
     .then(category => {
-      Record.findById(id)
+      Record.findOne({ _id, userId })
         .then(record => {
           record.name = name
           record.date = slashDate
           record.amount = amount
-          record.userId = "6492b4eb257d00d8a027bd08"
+          // record.userId = userId
           record.categoryId = category._id
 
           return record.save()
         })
         .then(() => res.redirect('/'))
         .catch(err => console.log(err))
-    })   
+    })
     .catch(err => console.log(err))
 })
 
 // Delete路由：刪除頁(delete)
-router.delete('/:id',(req,res)=>{
-  const id = req.params.id
+router.delete('/:id', (req, res) => {
+  const _id = req.params.id
+  const userId = req.user._id
 
-  Record.findById(id)
-    .then(record=> record.remove())
+  Record.findOne({ _id, userId })
+    .then(record => record.remove())
     .then(() => res.redirect('/'))
     .catch(err => console.log(err))
 })
