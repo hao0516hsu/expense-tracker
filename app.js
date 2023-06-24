@@ -16,6 +16,8 @@ if (process.env.NODE_ENV !== 'production') {
 const routes = require('./routes')
 // 引用Mongoose
 require('./config/mongoose')
+// 引用Passport
+const usePassport = require('./config/passport')
 
 const app = express()
 const port = process.env.PORT
@@ -33,6 +35,9 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }))
+
+// 呼叫usePassport
+usePassport(app)
 
 // 使用routes
 app.use(routes)
