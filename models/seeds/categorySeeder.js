@@ -35,7 +35,7 @@ db.once('open', () => {
     })
   )
     .then(() => {
-      console.log('Category seeder is executed')
+      console.log('CategorySeeder is executed')
       process.exit()
     })
 
