@@ -1,6 +1,11 @@
+// Passport: 登入驗證
 const passport = require('passport')
+// Passport-local: 驗證策略- 本地驗證
 const LocalStrategy = require('passport-local').Strategy
+// Passport-local: 驗證策略- 臉書登入
+const FacebookStrategy = require('passport-facebook').Strategy
 const User = require('../models/user')
+// Bcryptjs: 密碼雜湊
 const bcrypt = require('bcryptjs')
 
 module.exports = app => {
@@ -34,6 +39,40 @@ module.exports = app => {
         .catch(err => done(err, false))
     }
   ));
+
+  // Facebook Strategy
+  passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_ID,
+    clientSecret: process.env.FACEBOOK_SECRET,
+    callbackURL: process.env.FACEBOOK_CALLBACK,
+    profileFields: ['email', 'displayName']
+  },
+    (accessToken, refreshToken, profile, done) => {
+      const { email, name } = profile._json
+
+      User.findOne({ email })
+        .then(user => {
+          if (user) {
+            return done(null, user)
+          }
+          const randomPassword = Math.random().toString(36).slice(-8)
+          bcrypt
+            .genSalt(10)
+            .then(salt => bcrypt.hash(randomPassword, salt))
+            .then(hash => {
+              User.create({
+                name,
+                email,
+                password: hash
+              })
+            })
+            .then(user => done(null, user))
+            .catch(err => done(err, false))
+        })
+        .catch(err => done(err, false))
+    }
+  ))
+
   // 序列化與反序列化
   passport.serializeUser((user, done) => {
     done(null, user.id);
