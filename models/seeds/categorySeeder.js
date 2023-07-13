@@ -26,17 +26,24 @@ const SEED_CATEGORY = [
 ]
 
 db.once('open', () => {
-  Promise.all(
-    SEED_CATEGORY.map(item => {
-      return Category.create({
-        name: item.name,
-        icon: item.icon
-      })
+  Category.find()
+    .then(categories => {
+      if (!categories.length) {
+        Promise.all(
+          SEED_CATEGORY.map(item => {
+            return Category.create({
+              name: item.name,
+              icon: item.icon
+            })
+          }))
+          .then(() => {
+            console.log('CategorySeeder is executed')
+            process.exit()
+          })
+      }
+      else {
+        console.log('CategorySeeder is executed.')
+        process.exit()
+      }
     })
-  )
-    .then(() => {
-      console.log('CategorySeeder is executed')
-      process.exit()
-    })
-
 })
